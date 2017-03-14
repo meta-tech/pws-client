@@ -36,12 +36,12 @@ use MetaTech\Ws\Client;
 
 $config        = Yaml::parse(file_get_contents(__dir__ . '/config/pwsauth.yml'));
 $authenticator = new Authenticator($config);
-$config        = Yaml::parse(file_get_contents(__dir__ . '/config/pwsclient.yml'));
 
+$config        = Yaml::parse(file_get_contents(__dir__ . '/config/pwsclient.yml'));
 $client        = new Client($config, $authenticator);
 // on instanciation the client init this calls :
 // $client->check();
-// $client->call();
+// enventually $client->call() (depending on previous response);
 
 // get example
 $response = $client->get('/ws/person/222');
@@ -55,7 +55,8 @@ if ($response->done) {
     // do stuff
 }
 
-$client->logout();
+// to close and destroy session on serverside :
+// $client->logout();
 
 ```
 
@@ -89,9 +90,9 @@ uri         :
 
 ### Server Response
 
-PwsClient intend to receiv any JsonResponse, the structure of the response is free.
-However, meta-tech always return this simple Json Structure :
-{ done : boolean, msg : 'string contextual msg', data : whatever }
+PwsClient intend to receiv any JsonResponse, the structure of the response is free.  
+However, meta-tech always return this simple Json Structure :  
+`{ done : boolean, msg : 'string contextual msg', data : whatever }`
 
 
 ### License
