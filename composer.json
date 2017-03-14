@@ -1,0 +1,29 @@
+{
+    "name"          : "meta-tech/pws-client",
+    "type"          : "library",
+    "homepage"      : "https://github.com/meta-tech/pws-client",
+    "description"   : "PwsClient is a php web service client managing PwsAuth protocol",
+    "license"       : "MIT",
+    "authors"       : [
+        {
+            "name"      : "a-Sansara",
+            "homepage"  : "https://github.com/a-sansara/"
+        }
+    ],
+    "keywords"      : ["Client", "PwsAuth", "WebService", "Http"],
+    "autoload"      : {
+        "psr-4"         : {
+            ""              : "src/"
+        }
+    },
+    "require"       : {
+        "symfony/yaml"  : "^3.2",
+        "meta-tech/pws-auth": "@dev"
+    },
+    "repositories"  : [
+        {            
+            "type": "git",
+            "url": "https://github.com/meta-tech/pws-auth.git"
+        }
+    ]
+}

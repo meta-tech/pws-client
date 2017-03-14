@@ -1,0 +1,24 @@
+# pwsauth config
+
+type    : PwsAuth2
+
+header  :
+    auth            : Pws-Authorization
+    ident           : Pws-Ident
+
+salt    : 
+    common          : jK5#p9Mh5.Zv}
+    # used for generating user specific salt
+    user.index      : 10
+    user.length     : 12
+
+hash    :
+    sep             : /
+    algo            : sha256
+    # effective token length size. out of bound data is simply noise
+    length          : 52
+    # session index (or obfuscate length)
+    session.index   : 58
+    # ending noise data length)
+    noise.length    : 12
+
