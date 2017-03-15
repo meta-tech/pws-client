@@ -19,6 +19,6 @@
     "require"       : {
         "php" : ">=5.4",
         "symfony/yaml" : "^3.2",
-        "meta-tech/pws-auth" : "@dev"
+        "meta-tech/pws-auth" : "~2.1"
     }
 }

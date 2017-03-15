@@ -18,7 +18,7 @@ Or add the package to your `composer.json`.
 
 ```
 "require": {
-    "meta-tech/pws-client" : "@dev"
+    "meta-tech/pws-client" : "~1.3"
 }
 ```
 
