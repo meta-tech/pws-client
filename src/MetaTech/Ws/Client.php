@@ -226,10 +226,9 @@ class Client
         curl_setopt($curl, CURLOPT_HEADER        , true);
         curl_setopt($curl, CURLOPT_COOKIESESSION , false);
         curl_setopt($curl, CURLOPT_USERAGENT     , $this->config['key']);
-        if (preg_match('/^https:/i', $this->config['protocol'])) {
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
-        }
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->config['verifypeer']);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, $this->config['verifyhost']);
+
         if (isset($this->config['http']) && isset($this->config['http']['user']) && isset($this->config['http']['password'])) {
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
             curl_setopt($curl, CURLOPT_USERPWD , $this->config['http']['user'] . ':'. $this->config['http']['password']);
