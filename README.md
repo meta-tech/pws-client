@@ -9,7 +9,7 @@ PHP >= 5.4
 
 ### Install
 
-The package can be installed using [ Composer ](https://getcomposer.org/). (not yet)
+The package can be installed using [ Composer ](https://getcomposer.org/).
 ```
 composer require meta-tech/pws-client
 ```
@@ -18,7 +18,7 @@ Or add the package to your `composer.json`.
 
 ```
 "require": {
-    "meta-tech/pws-client" : "1.0"
+    "meta-tech/pws-client" : "@dev"
 }
 ```
 
@@ -94,6 +94,8 @@ PwsClient intend to receiv any JsonResponse, the structure of the response is fr
 However, meta-tech always return this simple Json Structure :  
 `{ done : boolean, msg : 'string contextual msg', data : whatever }`
 
+see [ meta-tech/pws-server ](https://github.com/meta-tech/pws-server)  
+and [ meta-tech/sile-core ](https://github.com/meta-tech/silex-core)
 
 ### License
 
