@@ -69,6 +69,9 @@ if ($response->done) {
 debug       : 1
 protocol    : https://
 hostname    : pwsserver.docker
+# ssl options
+verifypeer  : 0
+verifyhost  : 0
 # file storing the server 's session id - must be out of DocumentRoot and read/writable by server
 store       : wsess
 login       : test
