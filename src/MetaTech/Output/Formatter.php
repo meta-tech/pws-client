@@ -86,11 +86,11 @@ class Formatter
         if (!$this->embedStyle) {
             $this->embedStyle = true;
             $style .= '<style type="text/css">'
-                    . '.meta-tech-of-line { white-space:pre !important; background-color:black !important; color:white !important; font-weight:bold !important; font-family:monospace !important; padding:10px !important; margin-top:0 !important }'
-                    . '.meta-tech-of-tag1 { color:#FB4E4E !important; }'
-                    . '.meta-tech-of-tag2 { color:#20FF93 !important; }'
-                    . '.meta-tech-of-tag3 { color:#FFDC58 !important; }'
-                    . '.meta-tech-of-tag4 { color:#44A2D6 !important; }'
+                    . '.meta-tech-of-line { font-size:13px !important; background-color:black !important; color:white !important; white-space:pre !important; font-weight:bold !important; font-family:\'monospace\' !important; padding:10px !important; margin-top:0 !important }'
+                    . '.meta-tech-of-tag1 { color:#FB4E4E !important; }'
+                    . '.meta-tech-of-tag2 { color:#20FF93 !important; }'
+                    . '.meta-tech-of-tag3 { color:#FFDC58 !important; }'
+                    . '.meta-tech-of-tag4 { color:#44A2D6 !important; }'
                     . '</style>';
         }
         return $style;
@@ -128,7 +128,7 @@ class Formatter
     {
         $content = $value . ($newline ? self::LF : '');
         if ($this->type == self::TYPE_HTML) {
-            $content = $this->embedStyleIfNeeded() . '<div class"meta-tech-ofline">'.$content.'</div>';
+            $content = $this->embedStyleIfNeeded() . '<div class="meta-tech-of-line">'.$content.'</div>';
         }
         echo $content;
     }

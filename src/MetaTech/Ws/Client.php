@@ -55,7 +55,7 @@ class Client
         if (!is_array($config)) {
             throw new \Exception('bad rest config');
         }
-        $typeFormatter       = $this->config['html_output'] ? Formatter::TYPE_HTML : Formatter::TYPE_CLI;
+        $typeFormatter       = $config['html_output'] ? Formatter::TYPE_HTML : Formatter::TYPE_CLI;
         $this->formatter     = new Formatter($typeFormatter);
         $this->config        = $config;
         $this->authenticator = $authenticator;
