@@ -18,7 +18,7 @@ Or add the package to your `composer.json`.
 
 ```
 "require": {
-    "meta-tech/pws-client" : "~1.3"
+    "meta-tech/pws-client" : "^1.3"
 }
 ```
 
@@ -50,7 +50,7 @@ if ($response->done) {
     
 }
 // post example
-$client->post('/ws/person/222/update', [ 'firstname' => 'toto']);
+$response = $client->post('/ws/person/222/update', [ 'firstname' => 'toto']);
 if ($response->done) {
     // do stuff
 }
@@ -69,6 +69,9 @@ if ($response->done) {
 debug       : 1
 protocol    : https://
 hostname    : pwsserver.docker
+# ssl options
+verifypeer  : 0
+verifyhost  : 0
 # file storing the server 's session id - must be out of DocumentRoot and read/writable by server
 store       : wsess
 login       : test
@@ -95,7 +98,7 @@ However, meta-tech always return this simple Json Structure :
 `{ done : boolean, msg : 'string contextual msg', data : whatever }`
 
 see [ meta-tech/pws-server ](https://github.com/meta-tech/pws-server)  
-and [ meta-tech/sile-core ](https://github.com/meta-tech/silex-core)
+and [ meta-tech/silex-core ](https://github.com/meta-tech/silex-core)
 
 ### License
 

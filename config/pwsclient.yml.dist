@@ -1,16 +1,16 @@
 # pwsclient config
 
 # 0 : disable, 1 : verboose, 2 : most verboose
-debug       : 1
-protocol    : https://
+debug       : 2
+protocol    : http://
 hostname    : pwsserver.docker
 verifypeer  : 0
 verifyhost  : 0
 # file storing the server 's session id - must be out of DocumentRoot and read/writable by server
 store       : wsess
-login       : test
-password    : test
-key         : test
+login       : dev
+password    : foo
+key         : ed830045da9861d29c46f36b4f4b1a4d4b223408667c52428370e51b615e8769
 # 0 : display cli, 1 : display html
 html_output : 0
 # http authentication
