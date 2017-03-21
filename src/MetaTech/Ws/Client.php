@@ -275,17 +275,16 @@ class Client
             $authresponse = false;
             try {
                 $lines     = explode(PHP_EOL, $respheader);
-                var_dump(compact('lines'));
                 $arrheader = [];
                 foreach($lines as $line) {
-                    $match = preg_split('/:/', $line, 1);
-                    if (count($match)==2) {
-                        $arrheader[$match[0]] = trim($arrheader[$match[1]]);
+                    if (!empty($line)) {
+                        $match = preg_split('/: /', $line, 2);
+                        if (count($match)==2) {
+                            $arrheader[$match[0]] = trim($match[1]);
+                        }
                     }
                 }
-                $h            = $this->authenticator->readHeader($arrheader);
-                var_dump(compact('h'));
-                $authresponse = isset($h['Pws-Response']) && $h['Pws-Response'] == $this->responseToken;
+                $authresponse = isset($arrheader['Pws-Response']) && $arrheader['Pws-Response'] == $this->responseToken;
             }
             catch(\Exception $e) {
                 
@@ -308,6 +307,7 @@ class Client
             }
         }
         if ($this->config['debug']) {
+            $responseToken = $this->responseToken;
             $respcontent = null;
             if (is_object($response)) {
                 $respcontent = clone $response;
@@ -339,7 +339,7 @@ class Client
                     'HEADER'   => $this->authenticator->readHeader($header), 
                     'PARAMS'   => $data, 
                     'METHOD'   => $method, 
-                    'RESPONSE' => compact('date', 'uri', 'status') + ['curl' => $rs, 'response' => $respcontent]
+                    'RESPONSE' => compact('date', 'uri', 'status', 'responseToken', 'authresponse') + ['curl' => $rs, 'response' => $respcontent]
                 ], true) . Formatter::LF;
                 array_unshift($tags, $traces);
                 $this->formatter->writeTags($tags);
