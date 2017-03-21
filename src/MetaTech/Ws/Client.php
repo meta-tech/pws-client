@@ -347,9 +347,13 @@ class Client
 
             case self::VERBOOSE      :
                 array_unshift($tags, Formatter::LF);
-                $tags[] = var_export(compact('status')+['response' => $respcontent], true);
+                $tags[] = var_export(compact('status', 'authresponse')+['response' => $respcontent], true);
                 $this->formatter->writeTags($tags);
                 break;
+        }
+        if (!$authresponse) {
+            $response->done = false;
+            $response->msg  = 'server response not authenticated !';
         }
         return compact('date', 'uri', 'response', 'status', 'exectime', 'authresponse');
     }
