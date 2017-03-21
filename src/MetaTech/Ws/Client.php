@@ -42,6 +42,9 @@ class Client
     /*! @protected @var Mtc\Core\Auth\Authenticator $authenticator */
     protected $authenticator;
 
+    /*! @protected @var str $responseToken */
+    protected $responseToken;
+
     /*!
      * desc
      * 
@@ -173,6 +176,8 @@ class Client
     private function _buildHeader($sessid=null)
     {
         $header = $this->authenticator->generateHeader($this->config['login'], $this->config['key'], $sessid);
+        $token  = $this->authenticator->getToken($this->authenticator->readHeader($header));
+        $this->responseToken = $this->authenticator->generateResponseHeader($token, $this->config['login']);
         return $header;
     }
 
@@ -262,14 +267,32 @@ class Client
             }
             if (count($header) > 0) curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
             // curl_setopt($curl, CURLOPT_HEADERFUNCTION, array($this, "HandleHeaderLine"));
-            $rs         = curl_exec($curl);
-            $exectime   = number_format(((microtime(true)-$stime)),5);
-            $status     = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            $size       = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-            $respheader = substr($rs, 0, $size);
-            $body       = substr($rs, $size);
-            $response   = json_decode($body);
-            $url        = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+            $rs           = curl_exec($curl);
+            $exectime     = number_format(((microtime(true)-$stime)),5);
+            $status       = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            $size         = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+            $respheader   = substr($rs, 0, $size);
+            $authresponse = false;
+            try {
+                $lines     = explode(PHP_EOL, $respheader);
+                var_dump(compact('lines'));
+                $arrheader = [];
+                foreach($lines as $line) {
+                    $match = preg_split('/:/', $line, 1);
+                    if (count($match)==2) {
+                        $arrheader[$match[0]] = trim($arrheader[$match[1]]);
+                    }
+                }
+                $h            = $this->authenticator->readHeader($arrheader);
+                var_dump(compact('h'));
+                $authresponse = isset($h['Pws-Response']) && $h['Pws-Response'] == $this->responseToken;
+            }
+            catch(\Exception $e) {
+                
+            }
+            $body         = substr($rs, $size);
+            $response     = json_decode($body);
+            $url          = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
             if ($status == 0) {
                 throw new \Exception(curl_error($curl));
             }
@@ -328,7 +351,7 @@ class Client
                 $this->formatter->writeTags($tags);
                 break;
         }
-        return compact('date', 'uri', 'response', 'status', 'exectime');
+        return compact('date', 'uri', 'response', 'status', 'exectime', 'authresponse');
     }
 
 }
