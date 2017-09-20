@@ -18,6 +18,6 @@
     },
     "require"       : {
         "php" : ">=5.4",
-        "meta-tech/pws-auth" : "^2.1"
+        "meta-tech/pws-auth" : "@dev"
     }
 }
