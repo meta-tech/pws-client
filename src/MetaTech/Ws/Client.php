@@ -352,6 +352,9 @@ class Client
                 break;
         }
         if (!$authresponse) {
+            if (!isset($response)) {
+                $response = new \stdclass();
+            }
             $response->done = false;
             $response->msg  = 'server response not authenticated !';
         }
