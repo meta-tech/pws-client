@@ -259,7 +259,7 @@ class Client
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST , $method);
             if ($method == "POST") {
                 curl_setopt($curl, CURLOPT_POST, true);
-                if ($data!=null && !empty($data)) {
+                if (!empty($data)) {
                     $fields = http_build_query($data);
                     $header[] = 'Content-Length: ' . strlen($fields);
                     curl_setopt($curl, CURLOPT_POSTFIELDS, $fields);
@@ -329,34 +329,42 @@ class Client
                 ['', null],
             ];
         }
-        switch ($this->config['debug']) {
-            
-            case self::MOST_VERBOOSE :
-                if (isset($data['password'])) {
-                    $data['password'] = '--hidden--';
-                }
-                $traces = var_export([
-                    'HEADER'   => $this->authenticator->readHeader($header), 
-                    'PARAMS'   => $data, 
-                    'METHOD'   => $method, 
-                    'RESPONSE' => compact('date', 'uri', 'status', 'responseToken', 'authresponse') + ['curl' => $rs, 'response' => $respcontent]
-                ], true) . Formatter::LF;
-                array_unshift($tags, $traces);
-                $this->formatter->writeTags($tags);
-                break;
-
-            case self::VERBOOSE      :
-                array_unshift($tags, Formatter::LF);
-                $tags[] = var_export(compact('status', 'authresponse')+['response' => $respcontent], true);
-                $this->formatter->writeTags($tags);
-                break;
-        }
-        if (!$authresponse) {
-            if (!isset($response)) {
-                $response = new \stdclass();
+        if (isset($tags)) {
+            if (!isset($responseToken)) {
+                $responseToken = "";
             }
-            $response->done = false;
-            $response->msg  = 'server response not authenticated !';
+            if (!isset($respcontent)) {
+                $respcontent = "";
+            }
+            switch ($this->config['debug']) {
+
+                case self::MOST_VERBOOSE :
+                    if (isset($data['password'])) {
+                        $data['password'] = '--hidden--';
+                    }
+                    $traces = var_export([
+                        'HEADER'   => $this->authenticator->readHeader($header),
+                        'PARAMS'   => $data,
+                        'METHOD'   => $method,
+                        'RESPONSE' => compact('date', 'uri', 'status', 'responseToken', 'authresponse') + ['curl' => $rs, 'response' => $respcontent]
+                    ], true) . Formatter::LF;
+                    array_unshift($tags, $traces);
+                    $this->formatter->writeTags($tags);
+                    break;
+
+                case self::VERBOOSE      :
+                    array_unshift($tags, Formatter::LF);
+                    $tags[] = var_export(compact('status', 'authresponse')+['response' => $respcontent], true);
+                    $this->formatter->writeTags($tags);
+                    break;
+            }
+            if (!$authresponse) {
+                if (!isset($response)) {
+                    $response = new \stdclass();
+                }
+                $response->done = false;
+                $response->msg  = 'server response not authenticated !';
+            }
         }
         return compact('date', 'uri', 'response', 'status', 'exectime', 'authresponse');
     }
